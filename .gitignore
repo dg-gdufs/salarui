@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# 项目新增
+*config.py
+.vscode/
+.idea/
+.ssh/
+logs/
+*.pyc
+*test*.*
+*.xls
+*.json
