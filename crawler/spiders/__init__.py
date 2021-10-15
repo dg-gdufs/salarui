@@ -32,7 +32,7 @@ class BaseSpider(scrapy.Spider):
             # 数据库设置
             if 'crawler.pipelines.sql_pipeline.SqlPipeline' in ITEM_PIPELINES.keys():
                 news_db_conf = kwargs["db"] if kwargs.get("db") in DB_CONFIG_LIST.keys() else "00"
-                self.news_db = Mysql(DB_CONFIG_LIST[news_db_conf])
+                self.item_db = Mysql(DB_CONFIG_LIST[news_db_conf])
         except Exception as e:
             self.send_log(3, "爬虫初始化失败 ==> {}".format(e))
             raise CloseSpider('强制停止')
