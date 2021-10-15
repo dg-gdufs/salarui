@@ -28,13 +28,13 @@ class FormatUtil():
         l = re.findall(r'(\d*\.?\d+)(千|万|元)/(年|月|天)',salary)
         if l:
             sal = float(l[0][0])
-            if l[0][2] == '万':
+            if l[0][1] == '万':
                 sal *= 10000
-            elif l[0][2] == '千':
+            elif l[0][1] == '千':
                 sal *= 1000
-            if l[0][3] == '年':
+            if l[0][2] == '年':
                 sal /= 12.0
-            elif l[0][3] == '天':
+            elif l[0][2] == '天':
                 sal *= 21.0
             return int(sal)
         

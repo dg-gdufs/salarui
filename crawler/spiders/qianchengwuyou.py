@@ -11,8 +11,8 @@ from utils.format_util import FormatUtil
 
 class QianChengWuYouSpider(BaseSpider):
     name = 'qcwy'
-    # 城市、工资、名称、页数、工作年限、学历
-    url = 'https://search.51job.com/list/{},000000,0000,00,9,{},{},2,{}.html?lang=c&postchannel=0000&workyear={}&cotype=99&degreefrom={}&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare='
+    # 工资、名称、页数
+    url = 'https://search.51job.com/list/000000,000000,0000,00,9,{},{},2,{}.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare='
     custom_settings = {
         'DEFAULT_REQUEST_HEADERS': {
             'Connection': 'keep-alive',
@@ -35,11 +35,8 @@ class QianChengWuYouSpider(BaseSpider):
         for offer in OFFER_NAME:
             offer = parse.quote(offer)
             for salary in QCWY_SALARY:
-                for area in QCWY_AREA.keys():
-                    for degree in QCWY_DEGREE.keys():
-                        for workyear in QCWY_WORKYEAR.keys():
-                            meta = {"area": area, "salary": salary, "offer": offer, "workyear": workyear, "degree": degree, "page": 1}
-                            yield Request(self.url.format(area,salary,offer,'1',workyear,degree),meta=meta)
+                meta = {"salary": salary, "offer": offer, "page": 1}
+                yield Request(self.url.format(salary,offer,'1'),meta=meta)
 
     def parse(self, response):
         js = response.json().get('engine_jds')
@@ -50,14 +47,16 @@ class QianChengWuYouSpider(BaseSpider):
                 item = OfferItem()
                 item['offer_id'] = '0_' + i['jobid']
                 item['offer'] = i['job_name']
-                item['area'] = '0_' + response.meta['area']
+                item['area'] = '0_' + i['workarea']
                 item['salary'] = FormatUtil.salary_format(i['providesalary_text'])
-                item['workyear'] = '0_' + response.meta['workyear']
-                item['degree'] = '0_' + response.meta['degree']
+                if i['workyear']:
+                    item['workyear'] = '0_' + i['workyear']
+                if i['degreefrom']:
+                    item['degree'] = '0_' + i['degreefrom']
                 item['date'] = i['issuedate']
                 yield item
             except Exception as e:
                 self.send_log(2, "item出错抛弃 ==> {} ==> item:{}".format(e, item))
 
         response.meta['page'] += 1
-        yield Request(self.url.format(response.meta['area'],response.meta['salary'],response.meta['offer'],str(response.meta['page']),response.meta['workyear'],response.meta['degree']),meta=response.meta)
+        yield Request(self.url.format(response.meta['salary'],response.meta['offer'],str(response.meta['page'])),meta=response.meta)

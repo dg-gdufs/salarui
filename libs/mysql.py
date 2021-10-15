@@ -7,7 +7,6 @@ class Mysql():
     用于链接mysql数据库的工具类
     '''
 
-
     db = None
     cur = None
 
@@ -44,7 +43,15 @@ class Mysql():
         sql语句select
         '''
         self.cur.execute(sql)
-        return self.cur.fetchall()
+        return list(self.cur.fetchall())
+
+    def update(self, table, set_keys, set_values, get_keys=[], get_values=[]):
+        sql = "update {} set {}".format(table, ','.join([i + r' = %s' for i in set_keys]))
+        if get_keys and get_values:
+            sql += " where {}".format(' and '.join([i + r' = %s' for i in get_keys]))
+            set_values.extend(get_values)
+        self.cur.execute(sql, set_values)
+        self.db.commit()
 
     def execute(self, sql):
         '''
