@@ -40,7 +40,7 @@ BASE_DOWNLOADER_MIDDLEWARES = {
 }
 
 BASE_ITEM_PIPELINES = {
-    # 'crawler.pipelines.sql_pipeline.SqlPipeline': 300,
+    'crawler.pipelines.sql_pipeline.SqlPipeline': 300,
 }
 
 BASE_SPIDER_MIDDLEWARES = {}

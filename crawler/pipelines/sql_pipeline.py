@@ -17,11 +17,16 @@ class SqlPipeline:
             if isinstance(item, AckItem):
                 return item
 
-            '''
-            在此填写逻辑
-            '''
-
-            spider.send_log(1, "网页抓取成功 ==> url:<{}>".format(''))
+            keylist = []
+            valuelist = []
+            for i in MYSQL_KEYS:
+                if i not in item:
+                    continue
+                keylist.append(i)
+                valuelist.append(item[i])
+            spider.item_db.insert('offer', keylist, valuelist)
+            spider.send_log(1, "offer抓取成功 ==> offer_id:<{}>".format(item['offer_id']))
+            
             return item
         except Exception as e:
             spider.send_log(3, "SqlPipeline error ==> {} ==> item:{}".format(e, item))

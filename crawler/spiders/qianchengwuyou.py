@@ -48,13 +48,13 @@ class QianChengWuYouSpider(BaseSpider):
         for i in js:
             item = OfferItem()
             item['offer_id'] = '0_' + i['jobid']
+            item['offer'] = i['job_name']
             item['area'] = '0_' + response.meta['area']
             item['salary'] = FormatUtil.salary_format(i['providesalary_text'])
-            item['offer'] = i['job_name']
             item['workyear'] = '0_' + response.meta['workyear']
             item['degree'] = '0_' + response.meta['degree']
             item['date'] = i['issuedate']
             yield item
 
-        # response.meta['page'] += 1
-        # yield Request(self.url.format(response.meta['area'],response.meta['salary'],response.meta['offer'],str(response.meta['page']),response.meta['workyear'],response.meta['degree']),meta=response.meta)
+        response.meta['page'] += 1
+        yield Request(self.url.format(response.meta['area'],response.meta['salary'],response.meta['offer'],str(response.meta['page']),response.meta['workyear'],response.meta['degree']),meta=response.meta)
