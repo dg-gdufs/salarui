@@ -42,9 +42,8 @@ class QianChengWuYouSpider(BaseSpider):
                             yield Request(self.url.format(area,salary,offer,'1',workyear,degree),meta=meta)
 
     def parse(self, response):
-        print(response.url)
         js = response.json().get('engine_jds')
-        if js:
+        if not js:
             return
         for i in js:
             item = OfferItem()
