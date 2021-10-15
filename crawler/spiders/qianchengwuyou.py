@@ -5,7 +5,7 @@ from urllib import parse
 from crawler.spiders import BaseSpider
 from crawler.items import *
 from scrapy.http.request import Request
-from common.url_qs import QCWY_AREA,QCWY_DEGREE,QCWY_SALARY,QCWY_WORKYEAR
+from common.url_qs import QCWY_SALARY
 from config.settings_config import OFFER_NAME
 from utils.format_util import FormatUtil
 
