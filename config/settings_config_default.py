@@ -44,3 +44,6 @@ BASE_ITEM_PIPELINES = {
 }
 
 BASE_SPIDER_MIDDLEWARES = {}
+
+# 以下为需要爬取的关键词
+OFFER_NAME = []

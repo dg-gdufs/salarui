@@ -11,10 +11,5 @@ class FormatUtil():
     '''
 
     @staticmethod
-    def url_md5(url):
-        '''
-        md5加密url
-        '''
-        m = hashlib.md5()
-        m.update(url.encode(encoding='utf-8'))
-        return m.hexdigest()
+    def salary_format(salary):
+        return salary
