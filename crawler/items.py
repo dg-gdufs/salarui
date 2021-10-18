@@ -12,6 +12,7 @@ class AckItem(scrapy.Item):
 class OfferItem(scrapy.Item):
     offer_id = scrapy.Field()
     offer = scrapy.Field()
+    category = scrapy.Field()
     area = scrapy.Field()
     salary = scrapy.Field()
     workyear = scrapy.Field()

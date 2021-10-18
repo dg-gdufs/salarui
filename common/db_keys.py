@@ -4,6 +4,7 @@
 MYSQL_KEYS = ( 
     'offer_id',
     'offer',
+    'category',
     'area',
     'salary',
     'workyear',

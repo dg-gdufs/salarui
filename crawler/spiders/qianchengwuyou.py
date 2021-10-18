@@ -47,8 +47,9 @@ class QianChengWuYouSpider(BaseSpider):
                 item = OfferItem()
                 item['offer_id'] = '0_' + i['jobid']
                 item['offer'] = i['job_name']
-                item['area'] = '0_' + i['workarea']
-                item['salary'] = FormatUtil.salary_format(i['providesalary_text'])
+                item['category'] = parse.unquote(response.meta['offer'])
+                item['area'] = FormatUtil.qcwy_area_format(i['workarea'])
+                item['salary'] = FormatUtil.qcwy_salary_format(i['providesalary_text'])
                 if i['workyear']:
                     item['workyear'] = '0_' + i['workyear']
                 if i['degreefrom']:

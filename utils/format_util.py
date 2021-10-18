@@ -11,7 +11,7 @@ class FormatUtil():
     '''
 
     @staticmethod
-    def salary_format(salary):
+    def qcwy_salary_format(salary):
         l = re.findall(r'(\d*\.?\d+)-(\d*\.?\d+)(千|万|元)/(年|月|天)',salary)
         if l:
             sal = (float(l[0][0]) + float(l[0][1])) / 2.0
@@ -39,3 +39,12 @@ class FormatUtil():
             return int(sal)
         
         raise Exception("未知salary格式抛弃:{}".format(salary))
+
+    def qcwy_area_format(area):
+        if re.findall(r'^0(1|2|4|5|6)\d+', area):
+            return '0_' + area[:2] + '0000'
+        if int(area) >= 330000:
+            return '0_' + area
+        if re.findall(r'\d{6}', area):
+            return '0_' + area[:4] + '00'
+        return None
